@@ -46,3 +46,7 @@ El código de la sección 9 ó llamado por mí como 6to API
       return cls.query.all()
   ```
   Para ItemModel y StoreModel
+
+## Cosas en requirements
+1. uwsgi y mysqlclient fueron comentados
+  - No hay un equivalente que me haya funcionado en Mac.

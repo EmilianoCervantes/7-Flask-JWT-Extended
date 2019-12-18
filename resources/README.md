@@ -15,3 +15,4 @@ class UserRegister(Resource)
 - Información que un cliente le puede solicitar al API.
 - **Qué respuesta nos tiene el API**
 - **Nuestra representación externa**
+- NO DEBEN INTERACTUAR CON LA BD DIRECTAMENTE, de eso se encargan los modelos.

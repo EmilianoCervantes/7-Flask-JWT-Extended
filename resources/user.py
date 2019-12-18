@@ -22,3 +22,22 @@ class UserRegister(Resource):
         user.update_and_insert_users()
 
         return {'message': 'Usuario creado exitosamente'}, 201
+
+
+# Recuperar info de los usuarios y borrarlos
+class User(Resource):
+
+    @classmethod
+    def get(self, user_id):
+        user = UserModel.find_by_id(user_id)
+        if user:
+            return user.json()
+        return { 'message': 'No se encontró al usario' }, 404
+
+    @classmethod
+    def delete(self, user_id):
+        user = UserModel.find_by_id(user_id)
+        if user:
+            user.delete_user()
+            return { 'message': 'Usuario borrado exitosamente' }
+        return { 'message': 'El usuario ya fue borrado o no existía' }, 404

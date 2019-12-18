@@ -39,7 +39,9 @@ El código de la sección 9 ó llamado por mí como 6to API
 2. ```**data``` para recolectar
   - ```data['price'], data['store_id']```
 3. Método de:
-  ```@classmethod
+  ```
+  @classmethod
   def find_all(cls):
-      return cls.query.all()```
+      return cls.query.all()
+  ```
   Para ItemModel y StoreModel

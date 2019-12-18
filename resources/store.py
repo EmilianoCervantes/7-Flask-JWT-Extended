@@ -3,10 +3,11 @@ from flask_jwt import jwt_required
 
 from models.store import StoreModel
 
+
 class StoreList(Resource):
     @jwt_required()
     def get(self):
-        return { 'stores': [ store.json() for store in StoreModel.query.all() ] }
+        return { 'stores': [ store.json() for store in StoreModel.find_all() ] }
 
 
 class Store(Resource):
@@ -16,7 +17,7 @@ class Store(Resource):
 
         if store:
             return store.json()
-        return { 'name': None }, 404
+        return { 'message': None }, 404
 
     @jwt_required()
     def post(self, name):

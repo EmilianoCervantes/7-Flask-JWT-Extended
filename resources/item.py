@@ -4,10 +4,11 @@ from flask_jwt import jwt_required
 
 from models.item import ItemModel
 
+
 class ItemList(Resource):
     @jwt_required()
     def get(self):
-        return { 'items': [item.json() for item in ItemModel.query.all()] }
+        return { 'items': [item.json() for item in ItemModel.find_all()] }
 
 
 class Item(Resource):
@@ -21,7 +22,7 @@ class Item(Resource):
 
         if item:
             return item.json()
-        return { 'name': None }, 404
+        return { 'message': None }, 404
 
     @jwt_required()
     def post(self, name):
@@ -30,7 +31,7 @@ class Item(Resource):
 
         data = Item.parser.parse_args()
 
-        item = ItemModel(name, data['price'], data['store_id'])
+        item = ItemModel(name, **data)
 
         try:
             item.update_and_insert_items()
@@ -56,7 +57,7 @@ class Item(Resource):
         if item:
             item.price = data['price']
         else:
-            item = ItemModel(name, data['price'], data['store_id'])
+            item = ItemModel(name, **data)
 
         item.update_and_insert_items()
 

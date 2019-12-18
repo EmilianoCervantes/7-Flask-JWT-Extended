@@ -5,20 +5,23 @@ from flask_restful import Api
 from flask_jwt import JWT
 
 from security import authenticate, identity
-
 from resources.user import UserRegister
 from resources.item import Item, ItemList
 from resources.store import Store, StoreList
 
 app = Flask(__name__)
-# (Variable de entorno, Default_Value)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///section4.db')
+# app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///section7.db')
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://username:password@localhost/db_name'
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://admin:Developer.2019@udemyflaskseccion9.cnnhekwxtydc.us-east-2.rds.amazonaws.com/udemyflaskseccion9'
-
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://admin:Developer.2019@udemyflaskseccion9.cnnhekwxtydc.us-east-2.rds.amazonaws.com/udemyflaskseccion9'
+# Agregado porque
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['PROPAGATE_EXCEPTIONS'] = True
 app.secret_key = 'lo_que_sea'
 api = Api(app)
+
+@app.before_first_request
+def create_tables():
+    database.create_all()
 
 jwt = JWT(app, authenticate, identity)
 

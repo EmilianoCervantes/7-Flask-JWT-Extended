@@ -1,11 +1,10 @@
 '''
 La habilidad de insertar información (objetos) en la tabla user
 '''
-
-import sqlite3
 from flask_restful import Resource, reqparse
 
 from models.user import UserModel
+
 
 class UserRegister(Resource):
     parser = reqparse.RequestParser()

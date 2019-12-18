@@ -13,7 +13,7 @@ app = Flask(__name__)
 # app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///section7.db')
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://username:password@localhost/db_name'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://admin:Developer.2019@udemyflaskseccion9.cnnhekwxtydc.us-east-2.rds.amazonaws.com/udemyflaskseccion9'
-# Agregado porque
+# Agregado por si JWT lanza un error
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['PROPAGATE_EXCEPTIONS'] = True
 app.secret_key = 'lo_que_sea'

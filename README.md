@@ -35,8 +35,9 @@ El código de la sección 9 ó llamado por mí como 6to API
 
 # Cambios de arranque para el código
 1. ```app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False```
-  - .
-2. ```**data``` para recolectar
+  - Si JWT lanza un error, el api no lo va a detectar.
+  - Por eso si quiere, por ejemplo, regresar 401 (No autorizado), se manda el error de regreso.
+2. ```**data``` para recolectar todo lo que tiene el diccionario
   - Ya no se emplea ```data['price'], data['store_id']```
 3. Método de:
   ```

@@ -37,7 +37,7 @@ El código de la sección 9 ó llamado por mí como 6to API
 1. ```app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False```
   - .
 2. ```**data``` para recolectar
-  - ```data['price'], data['store_id']```
+  - Ya no se emplea ```data['price'], data['store_id']```
 3. Método de:
   ```
   @classmethod

@@ -38,3 +38,23 @@ El código de la sección 9 ó llamado por mí como 6to API
 ## Cosas en requirements
 1. uwsgi y mysqlclient fueron comentados
   - No hay un equivalente que me haya funcionado en Mac.
+
+# FRESH TOKEN
+### ¿Qué significa refrescar un token?
+Estás logueado pero debes volver a proveer tu contraseña.
+
+No lo has realiado por un par de días por ejemplo.
+
+**Cuando se realiza una acción crítica, _como en borrar un repo en de Git_.**
+
+Otros ejemplos son:
+ - Cambiar contraseña o datos personales
+ - Acciones de admin
+ - Darle permisos a otro usuario
+
+### Un Fresh Token entonces es
+Un token que justo acabas de obtener porque justo acabas de proveer tus credenciales.
+
+Con flask lo hacemos así: ```create_access_token(..., fresh=¿Es fresco?)```
+- Con ```fresh=True``` el usuario acaba de ingresar o comprobar que es él.
+- ```fresh=False``` lleva un rato sin ingresar su contraseña.

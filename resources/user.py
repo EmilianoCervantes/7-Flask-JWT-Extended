@@ -2,20 +2,31 @@
 La habilidad de insertar información (objetos) en la tabla user
 '''
 from flask_restful import Resource, reqparse
-from werkzeug import safe_str_cmp
+from werkzeug.security import safe_str_cmp
+from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, get_jwt_claims
 
 from models.user import UserModel
+
+# _variable significa que es privada en python
+_user_parser = reqparse.RequestParser()
+_user_parser.add_argument(
+    'username',
+    required=True,
+    type=str,
+    help='Username no puede estar vacío'
+)
+_user_parser.add_argument(
+    'password',
+    required=True,
+    type=str,
+    help='Campo password no puede estar vacío'
+)
 
 
 # Crear nuevos usuarios y agregarlos a la BD
 class UserRegister(Resource):
-    parser = reqparse.RequestParser()
-    parser.add_argument('username', required=True, type=str, help='Username no puede estar vacío')
-    parser.add_argument('password', required=True, type=str, help='Campo password no puede estar vacío')
-
-    @classmethod
-    def post(cls):
-        data = cls.parser.parse_args()
+    def post(self):
+        data = _user_parser.parse_args()
 
         if UserModel.find_by_username(data['username']):
             return { 'message': 'Ese usuario ya existe' }, 400
@@ -30,7 +41,7 @@ class UserRegister(Resource):
 # Recuperar info de los usuarios y borrarlos
 class User(Resource):
 
-    @classmethod
+    @jwt_required
     def get(self, user_id):
         user = UserModel.find_by_id(user_id)
         if user:
@@ -39,34 +50,29 @@ class User(Resource):
 
     @classmethod
     def delete(self, user_id):
+        '''
+            Uso de jwt claims.
+            Que no se pueda borrar a un admin.
+        '''
+        # claims = get_jwt_claims()
+        # if not claims['is_admin']:
+        #     return { 'message': 'Debes ser admin' }
         user = UserModel.find_by_id(user_id)
         if user:
             user.delete_user()
             return { 'message': 'Usuario borrado exitosamente' }
         return { 'message': 'El usuario ya fue borrado o no existía' }, 404
 
+        # return { 'message': 'Debes ser admin' }, 401
+
 
 # Emplear flask_jwt_extended
 class UserLogin(Resource):
     """Toma user y pass y verifica que sean correctos"""
-    parser = reqparse.RequestParser()
-    parser.add_argument(
-        'username',
-        required=True,
-        type=str,
-        help='Username no puede estar vacío'
-    )
-    parser.add_argument(
-        'password',
-        required=True,
-        type=str,
-        help='Campo password no puede estar vacío'
-    )
 
-    @classmethod
-    def post(cls):
+    def post(self):
         # get datos del parser
-        data = cls.parser.parse_args()
+        data = _user_parser.parse_args()
         # encontrar el user en la bd
         user = UserModel.find_by_username(data['username'])
         # checar el password
